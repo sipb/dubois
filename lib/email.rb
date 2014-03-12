@@ -11,19 +11,19 @@ class Email
 
     self.id                 = messageinfo[:message_id]
     self.subject            = messageinfo[:subject]
+    self.date               = Time.at(messageinfo[:date]).to_datetime
     self.from               = messageinfo[:from].first
     self.to                 = messageinfo[:to].first
     self.thread_id          = messageinfo[:thread_id]
     self.snippet            = messageinfo[:snippet]
     self.cc                 = messageinfo[:cc]
-    self.mailing_list_name  = messageinfo[:recipient_email].split("@").first if messageinfo[:recipient_email].present?
     self.body               = messageinfo[:parts].first['content']
 
     self
   end
 
   def user
-    @user ||= User.where(email: self.from).first
+    @user ||= User.where(email: self.from).first_or_create!
   end
 
   def subscriber
@@ -36,6 +36,13 @@ class Email
 
   def thread
     @thread ||= EmailThread.find(self.thread_id)
+  end
+
+  def cc=(val)
+    # Pull the email from the list of CC's. Look for one that we have a matching mailing list for. Return that one's name.
+    self.mailing_list_name = val.select { |cc| MailingList.where(name: cc.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).first).first.try(:name) }.first
+
+    @cc = val
   end
 
   private
