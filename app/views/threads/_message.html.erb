@@ -1,0 +1,8 @@
+<section class='message root'>
+    <h6 class='author'>
+      <%= link_to reply.user.name, reply.user, :class => "name" %>
+      <span>writes:</span>
+      <div class='timestamp'><%= reply.date.strftime("%B %d, %Y at %l:%M %p") %></div>
+    </h6>
+  <p class='body'><%= raw @markdown.render(reply.body.gsub(/(On .* wrote: >)/, "")) %></p>
+</section>

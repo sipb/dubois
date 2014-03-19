@@ -4,4 +4,5 @@ class MailingList < ActiveRecord::Base
   def threads
     EmailThread.where(mailing_list: self.name)
   end
+  
 end

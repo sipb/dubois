@@ -1,0 +1,13 @@
+<article id='thread'>
+  <section class='message root'>
+    <h6 class='author'>
+      <%= link_to @thread.author.name, @thread.author, :class => "name" %>
+      <span>writes:</span>
+      <span class='timestamp'><%= @thread.date.strftime("%B %d, %Y at %l:%M %p") %></span>
+    </h6>
+    <h2 class='subject'><%= @thread.subject %></h2>
+    <p class='body'><%= raw @markdown.render(@thread.messages.first.body) %></p>
+    <% if @replies.present? %>
+    <% end %>
+  </section>
+</article>

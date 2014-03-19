@@ -1,27 +1,55 @@
-<h1>Listing mailing_lists</h1>
+<h1 class='page-title'>See what's going on at MIT.</h1>
+<h4 class='page-title'>Browse, search, and follow mailing lists around MIT, from the past and right now.</h4>
+<div class="input-group" id='search_box'>
+  <span class="input-group-addon"><i class='glyphicon glyphicon-search'></i></span>
+  <input type="search" class="form-control" placeholder="Mailing Lists, Threads, and Users"/>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+<div id='threads'>
+  <% EmailThread.recent(3).each do |thread| %>
+    <% 3.times do %>
+      <div href='<%= raw thread_path(thread.id) %>' class='thread-container'>
 
-  <tbody>
-    <% @mailing_lists.each do |mailing_list| %>
-      <tr>
-        <td><%= mailing_list.name %></td>
-        <td><%= link_to 'Show', mailing_list %></td>
-        <td><%= link_to 'Edit', edit_mailing_list_path(mailing_list) %></td>
-        <td><%= link_to 'Destroy', mailing_list, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <div class='mailing-list-container'>
+          <div class='mailing-list'>
+            <%= link_to thread.mailing_list.name.split("@").first, thread.mailing_list, :class => "name" %>
+            <%= link_to mailing_list_path(id: thread.mailing_list.id, :star => true), :method => :put, :class => "btn btn-default btn-xs fave" do %>
+              <span class="glyphicon glyphicon-star"></span>
+              <span>15</span>
+            <% end %>
+          </div>
+        </div>
+        
+        <table class="table well bottom-bar">
+          <tbody>
+            <tr>
+              <td><span class='glyphicon glyphicon-time'></span></td>
+              <td class='timestamp'>5 minutes ago</td>
+            </tr>
+
+            <tr>
+              <td><span class='glyphicon glyphicon-user'></span></td>
+              <td class='username'><%= link_to thread.messages.last.user.name, thread.messages.last.user %></td>
+            </tr>
+
+            <tr>
+              <td><span class='glyphicon glyphicon-envelope'></span></td>
+              <td class='subject'><%= thread.subject %></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class='thread'>
+          <p class='body'><%= thread.messages.last.body %></p>
+          <%= link_to thread_path(thread.id), :class => "btn btn-primary open" do %>
+            Open&nbsp;
+            <i class='glyphicon glyphicon-arrow-right'></i>
+          <% end %>
+        </div>
+
+        <div class='replies'>15 replies</div>
+
+    </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Mailing list', new_mailing_list_path %>
+  <% end %>
+</div>

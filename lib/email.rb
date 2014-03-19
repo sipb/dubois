@@ -1,5 +1,6 @@
 class Email
   attr_accessor :Id, :subject, :from, :to, :thread_id, :id, :snippet, :body, :cc, :date, :mailing_list_name, :body
+  EMAIL_REGEX = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i.freeze unless defined?(EMAIL_REGEX)
 
   def self.find(id)
     id = id.id if id.class == Email
@@ -13,16 +14,19 @@ class Email
     self.subject            = messageinfo[:subject]
     self.date               = Time.at(messageinfo[:date]).to_datetime
     self.from               = messageinfo[:from].first
-    self.to                 = messageinfo[:to].first
+    self.to                 = messageinfo[:to]
     self.thread_id          = messageinfo[:thread_id]
     self.snippet            = messageinfo[:snippet]
     self.cc                 = messageinfo[:cc]
     self.body               = messageinfo[:parts].first['content']
 
+    deduce_mailing_list!
+
     self
   end
 
   def user
+    
     @user ||= User.where(email: self.from).first_or_create!
   end
 
@@ -38,14 +42,13 @@ class Email
     @thread ||= EmailThread.find(self.thread_id)
   end
 
-  def cc=(val)
-    # Pull the email from the list of CC's. Look for one that we have a matching mailing list for. Return that one's name.
-    self.mailing_list_name = val.select { |cc| MailingList.where(name: cc.scan(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i).first).first.try(:name) }.first
-
-    @cc = val
-  end
-
   private
+
+    def deduce_mailing_list!
+      possible_names = self.cc.collect  { |cc| cc.scan(EMAIL_REGEX).first }
+      possible_names << self.to.collect { |to| to.scan(EMAIL_REGEX).first }
+      self.mailing_list_name = MailingList.where(:name => possible_names).first.try(:name)
+    end
 
     def self.client
       @client ||= HeliotropeClient.new(ENV['HELIOTROPE_ADDRESS'])

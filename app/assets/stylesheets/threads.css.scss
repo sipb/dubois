@@ -1,0 +1,35 @@
+#thread {
+  margin: 125px;
+  .message {
+    padding: 10px;
+    .author {
+      margin: 0px;
+      padding: 0px;
+      .name, span, .timestamp {
+        display: inline-block;
+      }
+      .name {
+        font-weight: normal;
+      }
+      .timestamp {
+        float: right;
+      }
+    }
+    .subject {
+      margin: 0px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 0px;
+    }
+    .body-container {
+      blockquote {
+        display: none;
+      }
+    }
+    .message {
+      border-top: 1px solid #CCC;
+    }
+
+  }
+
+}

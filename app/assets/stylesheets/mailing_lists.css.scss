@@ -1,3 +1,112 @@
-// Place all the styles related to the MailingLists controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.container {
+}
+#threads {
+  margin: 0 auto;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-flow: row wrap;
+  .thread-container {
+    margin-right: 7px;
+    margin-left: 0px;
+    margin-top: 7px;
+    margin-bottom: 7px;
+    height: 320px;
+    .mailing-list-container {
+      margin: 0 auto;
+      padding: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(246,246,246,1) 47%,rgba(237,237,237,1) 100%); /* W3C */
+      border: 1px solid #CCC;
+      border-bottom: none;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      .mailing-list {
+        margin: 0 auto;
+        margin-left: 10px;
+        margin-right: 10px;
+        display: block;
+        position: relative;
+        .fave {
+          position: absolute;
+          right: 0px;
+        }
+      }
+
+    }
+    .author {
+      margin: 0 auto;
+      border: 1px solid #CCC;
+      border-bottom: none;
+      padding: 3px;
+      text-indent: 10px;
+      color: #666;
+      // text-align: center;
+      .name {
+        // margin-left: 10px;
+      }
+    }
+    .thread {
+      padding: 15px;
+      border: 1px solid #CCC;
+      width: 213px;
+      .open {
+        width: 100%;
+      }
+      .body {
+        height: 100px;
+        display: block;
+        white-space: pre-line;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+    .bottom-bar {
+      margin: 0 auto;
+      box-shadow: none;
+      padding: 5px;
+      padding-left: 0px;
+      padding-right: 0px;
+      text-indent: 5px;
+      list-style: none;
+      border: 1px solid #CCC;
+      border-bottom: none;
+      border-radius: 0px;
+      tr {
+        td {
+          padding: 5px;
+          margin: 0 auto;
+          text-align: left;
+          font-size: 12px;
+          max-width: 178px;
+        }
+        .username, .timestamp, .subject {
+          // uber 1337 h4x
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          // display: block;
+
+        }
+        text-align: left;
+
+      }
+    }
+    .replies {
+      margin: 0 auto;
+      text-align: center;
+      padding: 3px;
+      border-radius: 0px;
+      width: 100%;
+      font-size: 12px;
+      border: 1px solid #CCC;
+      border-top: none;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      background-color: #F5F5F5;
+
+    }
+
+  }
+}

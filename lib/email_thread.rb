@@ -1,5 +1,11 @@
 class EmailThread
-  attr_accessor :message_ids, :mailing_list_name, :id, :date
+  attr_accessor :message_ids, :mailing_list_name, :id, :date, :subject
+
+  def self.recent(number)
+    client.search("~inbox", number).collect do |thread|
+      find(thread['thread_id'])
+    end.reject { |thread| thread.mailing_list.nil? || thread.mailing_list.name.nil? }
+  end
 
   def self.find_by_mailing_list(mailing_list)
     mailing_list = mailing_list.try(:name) if mailing_list.class == MailingList
@@ -10,10 +16,14 @@ class EmailThread
     end
   end
 
-  def self.where(mailing_list: nil)
-    client.search(mailing_list).collect { |thread| find(thread['thread_id']) }.uniq.compact
+  def self.where(mailing_list: nil, mailing_lists: nil)
+    if mailing_lists.present?
+      mailing_lists.collect { |mailing_list| self.where(mailing_list: mailing_list) }.flatten.sort_by(&:date).reverse
+    else
+      client.search(mailing_list).collect { |thread| find(thread['thread_id']) }.uniq.compact.sort_by(&:date).reverse
+    end
   end
-
+ 
   def self.find(id)
     if result = client.thread(id)
       EmailThread.new(result)
@@ -30,6 +40,7 @@ class EmailThread
     sample_message         = self.messages.sample
     self.id                = sample_message.thread_id
     self.mailing_list_name = sample_message.mailing_list_name 
+    self.subject           = sample_message.subject.gsub(/(re:)/i, "").strip.capitalize
   end
 
   def messages
@@ -41,7 +52,11 @@ class EmailThread
   end
 
   def mailing_list
-    @mailing_list ||= MailingList.where(name: self.mailing_list_name)
+    @mailing_list ||= MailingList.where(name: self.mailing_list_name).first
+  end
+
+  def author
+    @author ||= self.messages.first.user
   end
 
   private
