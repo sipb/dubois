@@ -16,31 +16,17 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
-    <div class="navbar" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">Dubois</a>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Popular</a></li>
-          <li><a href="#">Sketchy</a></li>
-          <li><a href="#">Favorited</a></li>
-        </ul>
-      </div>
-    </div>
+  <body class='alt-margins' data-spy='scroll' data-target='.reply'>
+    <header>
+      <h2><%= link_to "Dubois", root_url %></h2>
+      <h3 class='path'><%= link_to "/" + @mailing_list.short_name, mailing_list_path(name: @mailing_list.short_name) %><%= link_to "/threads/#{@thread.id}", thread_path(name: @mailing_list.short_name, id: @thread.id) %></h3>
+    </header>
     <div class='container'>
       <%= yield %>
     </div>
     <footer class='footer'>
-      <sub>Built in W20 by <a href='mailto:jarred@jarredsumner.com?subject=hai'>Jarred Sumner</a>.</sub> <br />
-      <sub>A <a href='http://sipb.mit.edu'>SIPB</a> project.</sub>
+      <sub>Built in W20 by Jarred Sumner.</sub> <br />
+      <sub>A SIPB project.</sub>
     </footer>
     <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   </body>

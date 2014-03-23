@@ -1,5 +1,5 @@
 class Email
-  attr_accessor :Id, :subject, :from, :to, :thread_id, :id, :snippet, :body, :cc, :date, :mailing_list_name, :body
+  attr_accessor :id, :subject, :from, :to, :thread_id, :id, :snippet, :body, :cc, :date, :mailing_list_name, :body
   EMAIL_REGEX = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i.freeze unless defined?(EMAIL_REGEX)
 
   def self.find(id)
@@ -13,11 +13,11 @@ class Email
     self.id                 = messageinfo[:message_id]
     self.subject            = messageinfo[:subject]
     self.date               = Time.at(messageinfo[:date]).to_datetime
-    self.from               = messageinfo[:from].first
-    self.to                 = messageinfo[:to]
+    self.from               = messageinfo[:from].scan(EMAIL_REGEX).first
+    self.to                 = messageinfo[:to].join.scan(EMAIL_REGEX)
     self.thread_id          = messageinfo[:thread_id]
     self.snippet            = messageinfo[:snippet]
-    self.cc                 = messageinfo[:cc]
+    self.cc                 = messageinfo[:cc].join.scan(EMAIL_REGEX)
     self.body               = messageinfo[:parts].first['content']
 
     deduce_mailing_list!
@@ -26,7 +26,6 @@ class Email
   end
 
   def user
-    
     @user ||= User.where(email: self.from).first_or_create!
   end
 
@@ -40,6 +39,10 @@ class Email
 
   def thread
     @thread ||= EmailThread.find(self.thread_id)
+  end
+
+  def to_message
+    Mail::Message.new(self.body)
   end
 
   private

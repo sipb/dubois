@@ -1,8 +1,9 @@
-<section class='message root'>
-    <h6 class='author'>
-      <%= link_to reply.user.name, reply.user, :class => "name" %>
-      <span>writes:</span>
-      <div class='timestamp'><%= reply.date.strftime("%B %d, %Y at %l:%M %p") %></div>
-    </h6>
-  <p class='body'><%= raw @markdown.render(reply.body.gsub(/(On .* wrote: >)/, "")) %></p>
+<section class='message reply' id='reply-<%= reply_counter + 1 %>'>
+    <h5 class='number'><a href='#reply-<%= reply_counter + 1 %>'>#<%= reply_counter + 1 %>:</a></h5>
+    <h5 class='author'>
+      <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos'><%= reply.user.name %></span>
+      <span>replies:</span>
+      <div class='timestamp'><i class='glyphicon glyphicon-time'></i>&nbsp;&nbsp;<%= reply.date.strftime("%B %d, %Y at %l:%M %p") %></div>
+    </h5>
+  <div class='body-container'><%= render_email(reply) %></div>
 </section>

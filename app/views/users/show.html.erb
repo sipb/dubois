@@ -1,2 +1,13 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<h2 class='page-title'>About <%= @user.name %></h2>
+
+<div class='user-info well'>
+  <h4>Info</h4>
+  <ul>
+    <% @user.visible_attributes.each do |attr_name| %>
+      <% if attribute = @user.send(attr_name) %>
+        <% next if attribute.blank? %>
+        <li><%= attr_name.to_s.titleize %>: <%= attribute %></li>
+      <% end %>
+    <% end %>
+  </ul>
+</div>

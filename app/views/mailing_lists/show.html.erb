@@ -1,9 +1,13 @@
-<p id="notice"><%= notice %></p>
+<h1 class='page-title'><%= link_to "/#{@mailing_list.short_name}", mailing_list_path(name: @mailing_list.short_name) %> </h1>
+<h4 class='page-title'>Recent posts in /<%= @mailing_list.short_name %> </h4>
 
-<p>
-  <strong>Name:</strong>
-  <%= @mailing_list.name %>
-</p>
+<%= form_tag thread_search_url(name: @mailing_list.short_name) do %>
+  <div class="input-group" id='search_box'>
+    <input type="search" name='query' class="form-control" placeholder="Search for threads within <%= @mailing_list.short_name %>"/>
+    <span class="input-group-addon"><button class='btn btn-primary btn-xs'><i class='glyphicon glyphicon-search'></i></button></span>
+  </div>
+<% end %>
 
-<%= link_to 'Edit', edit_mailing_list_path(@mailing_list) %> |
-<%= link_to 'Back', mailing_lists_path %>
+<div id='threads'>
+  <%= render partial: 'thread', collection: @threads, as: :thread %>
+</div>

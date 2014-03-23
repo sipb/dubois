@@ -2,26 +2,30 @@ class EmailThread
   attr_accessor :message_ids, :mailing_list_name, :id, :date, :subject
 
   def self.recent(number)
-    client.search("~inbox", number).collect do |thread|
-      find(thread['thread_id'])
-    end.reject { |thread| thread.mailing_list.nil? || thread.mailing_list.name.nil? }
+    query("~inbox", count: number)
   end
 
   def self.find_by_mailing_list(mailing_list)
     mailing_list = mailing_list.try(:name) if mailing_list.class == MailingList
-    if result = client.search(mailing_list).first
-      find(result['thread_id'])
-    else
-      nil
-    end
+    query(mailing_list_query(mailing_list)).first
   end
 
-  def self.where(mailing_list: nil, mailing_lists: nil)
+  def self.search(name, count: 20, page: 1)
+    query(name, count: count, page: page)
+  end
+
+  def self.where(mailing_list: nil, mailing_lists: nil, count: 20, page: 1)
     if mailing_lists.present?
       mailing_lists.collect { |mailing_list| self.where(mailing_list: mailing_list) }.flatten.sort_by(&:date).reverse
     else
-      client.search(mailing_list).collect { |thread| find(thread['thread_id']) }.uniq.compact.sort_by(&:date).reverse
+      query(mailing_list_query(mailing_list.try(:name) || mailing_list), count: count, page: page)
     end
+  end
+
+  def self.for_mailing_list(mailing_list: nil, name: nil, page: 1, count: 20)
+    q = mailing_list_query(mailing_list)
+    q << "AND (body:#{name})" if name.present?
+    query(q, page: page, count: count)
   end
  
   def self.find(id)
@@ -63,5 +67,18 @@ class EmailThread
 
     def self.client
       @client ||= HeliotropeClient.new(ENV['HELIOTROPE_ADDRESS'])
+    end
+
+    def self.query(name, page: 1, count: 20)
+      offset = count * (page - 1)
+      client.search(name, count, offset).collect do |thread| 
+        find(thread['thread_id'])
+      end.reject do |thread|
+        thread.mailing_list_name.blank?
+      end.uniq.compact.sort_by(&:date).reverse
+    end
+
+    def self.mailing_list_query(name)
+      "(from: \"#{name}\" OR cc: \"#{name}\")"
     end
 end

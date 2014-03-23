@@ -1,35 +1,98 @@
-#thread {
-  margin: 125px;
-  .message {
+body.alt-margins {
+  margin: 100px;
+  margin-top: 0px;
+  header {
+    margin: 0 auto;
+    text-align: left;
     padding: 10px;
-    .author {
-      margin: 0px;
-      padding: 0px;
-      .name, span, .timestamp {
-        display: inline-block;
-      }
-      .name {
-        font-weight: normal;
-      }
-      .timestamp {
-        float: right;
-      }
+    width: 550px;
+    h2, .path {
+      text-align: left;
+      display: inline-block;
     }
-    .subject {
-      margin: 0px;
-      margin-top: 5px;
-      margin-bottom: 5px;
-      padding: 0px;
+    .path {
+      float: right;
     }
-    .body-container {
-      blockquote {
-        display: none;
-      }
-    }
+  }
+  .hidden {
+    display: none;
+  }
+  #thread {
+    margin: 0 auto;
+    margin-top: 0px;
+    width: 550px;
     .message {
-      border-top: 1px solid #CCC;
+      padding: 10px;
+      .author {
+        .name, span, .timestamp {
+          display: inline-block;
+        }
+        .name {
+          font-weight: normal;
+        }
+        .timestamp {
+          float: right;
+        }
+      }
+      .body-container {
+        font-size: 12pt;
+      }
+      .quoted {
+        padding: 20px;
+        border-left: 5px solid #EEE;
+        border-right: 5px solid #EEE;
+        @extend .unselectable;
+        a {
+          pointer-events: none;
+          color: black;
+        }
+        &:hover, &.active {
+          cursor: pointer;
+          border-left: 5px solid #BBB;
+          border-right: 5px solid #BBB;
+        }
+        &.active {
+          border-bottom: 1px solid #CCC;
+        }
+        .arrow {
+          float: right;
+        }
+      }
+      blockquote {
+        position: relative;
+        top: -10px;
+        border-left: 5px solid #BBB;
+        border-right: 5px solid #BBB;
+      }
+      .arrow {
+        margin-left: 5px;
+      }
+
+
+      #messages {
+        .message {
+          margin-top: 0px;
+          padding-top: 0px;
+          border-top: 1px solid #CCC;
+          counter-increment: section;
+          .number {
+            float: left;
+            margin-top: 7px;
+            margin-left: -50px;
+            font-size: 14pt;
+            color: $link-color;
+            content: "#" counter(section) ":";
+            font-weight: normal;
+          }
+
+        }
+      }
+
     }
 
   }
-
+  footer {
+    margin: 0 auto;
+    width: 550px;
+  }
 }

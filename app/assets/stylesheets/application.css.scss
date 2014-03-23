@@ -1,5 +1,13 @@
 @import url(http://fonts.googleapis.com/css?family=Lato:400,700);
 
+.unselectable {
+  -moz-user-select: none; 
+  -khtml-user-select: none; 
+  -webkit-user-select: none; 
+  -o-user-select: none; 
+  user-select: none;  
+}  
+
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $headings-font-family: "Lato";
 $headings-font-weight: 700;
@@ -7,6 +15,7 @@ $headings-font-weight: 700;
 @import "bootstrap";
 @import "mailing_lists";
 @import "threads";
+@import "users";
 
 *, *:before, *:after {
   -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
@@ -20,4 +29,8 @@ $headings-font-weight: 700;
   @extend .container;
   margin-top: 25px;
   border-top: 1px solid #CCC; 
+}
+
+.kerberos {
+  color: green;
 }

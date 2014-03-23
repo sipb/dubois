@@ -1,0 +1,14 @@
+<h1 class='page-title'>Search Results</h1>
+<h4 class='page-title'>Query: <%= params[:query] %></h4>
+
+  <%= form_tag search_url do %>
+    <div class="input-group" id='search_box'>
+      <input type="search" name='query' class="form-control" placeholder="Search for mailing lists and threads" value='<%= params[:query] %>'/>
+      <span class="input-group-addon"><button class='btn btn-primary btn-xs'><i class='glyphicon glyphicon-search'></i></button></span>
+    </div>
+  <% end %>
+
+
+<div id='threads'>
+  <%= render partial: 'thread', collection: @threads, as: :thread %>
+</div>

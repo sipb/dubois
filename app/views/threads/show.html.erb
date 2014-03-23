@@ -1,13 +1,16 @@
 <article id='thread'>
-  <section class='message root'>
-    <h6 class='author'>
-      <%= link_to @thread.author.name, @thread.author, :class => "name" %>
+  <section class='message number' id='root'>
+    <h5 class='author'>
+      <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos'><%= @thread.author.name %></span>
       <span>writes:</span>
-      <span class='timestamp'><%= @thread.date.strftime("%B %d, %Y at %l:%M %p") %></span>
-    </h6>
-    <h2 class='subject'><%= @thread.subject %></h2>
-    <p class='body'><%= raw @markdown.render(@thread.messages.first.body) %></p>
-    <% if @replies.present? %>
-    <% end %>
+      <span class='timestamp'><i class='glyphicon glyphicon-time'></i>&nbsp;&nbsp;<%= @thread.date.strftime("%B %d, %Y at %l:%M %p") %></span>
+    </h5>
+    <h3 class='subject'><%= @thread.subject %></h3>
+    <div class='body-container'><%= raw @markdown.render(@thread.messages.first.body) %></div>
+    <ol id='messages'>
+      <% if @replies.present? %>
+        <%= render partial: 'message', collection: @replies, as: :reply %>
+      <% end %>
+    </ol>
   </section>
 </article>
