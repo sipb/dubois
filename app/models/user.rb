@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_many :subscribers
+  has_many :followers
+  has_many :mailing_lists, through: :followers
 
   def name
     if self.email.downcase.include?("@mit.edu")

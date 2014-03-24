@@ -1,5 +1,6 @@
 class MailingList < ActiveRecord::Base
-  has_many :subscribers
+  has_many :followers
+  has_many :users, :through => :followers
 
   def threads
     EmailThread.where(mailing_list: self.name)

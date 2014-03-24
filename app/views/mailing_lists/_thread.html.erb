@@ -5,7 +5,7 @@
       <%= link_to thread.mailing_list.name.split("@").first, mailing_list_path(name: thread.mailing_list.short_name), :class => "name" %>
       <%= link_to mailing_list_path(name: thread.mailing_list.id, :star => true), :method => :put, :class => "btn btn-default btn-xs fave" do %>
         <span class="glyphicon glyphicon-star"></span>
-        <span>15</span>
+        <span><%= number_with_delimiter thread.mailing_list.followers.count %></span>
       <% end %>
     </div>
   </div>
