@@ -8,28 +8,28 @@ $("#thread").ready ->
       quoted.data("for", id)
       quoted.addClass("quoted")
       $("<i class='glyphicon glyphicon-chevron-up arrow'></i>").appendTo(quoted)
-  $(".message").waypoint
-    handler: (direction) ->
-      history.pushState(null, null, $(this).children(".number").first().attr("href") || "#" + $(this).attr("id"))
-  $("body").keyup (evt) ->
-    number = parseInt(location.hash.split("reply-")[1])
-    @id = "root" if number == NaN
+  # $(".message").waypoint
+  #   handler: (direction) ->
+  #     history.replaceState({ path: $(this).children(".number").first().attr("href") || "#" + $(this).attr("id") }, '')
+  # $("body").keyup (evt) ->
+  #   number = parseInt(location.hash.split("reply-")[1])
+  #   @id = "root" if number == NaN
 
-    # Pressed "j", let's go up
-    if evt.keyCode == 74
+  #   # Pressed "j", let's go up
+  #   if evt.keyCode == 74
 
-      # If we're already at the topmost reply
-      if number < 2
-        @id = "root"
-      else
-        @id = "reply-#{number - 1}"
-      location.hash = @id
+  #     # If we're already at the topmost reply
+  #     if number < 2
+  #       @id = "root"
+  #     else
+  #       @id = "reply-#{number - 1}"
+  #     location.hash = @id
 
-    # Pressed "k", let's go down
-    else if evt.keyCode == 75
-      element = $("#reply-#{number - 1}")
-      if element = element.length
-        location.hash = element.attr("id")
+  #   # Pressed "k", let's go down
+  #   else if evt.keyCode == 75
+  #     element = $("#reply-#{number - 1}")
+  #     if element = element.length
+  #       location.hash = element.attr("id")
 
   $("blockquote").each (index, element) ->
     minimize($(element))

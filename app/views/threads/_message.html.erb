@@ -1,7 +1,7 @@
 <section class='message reply' id='reply-<%= reply_counter + 1 %>'>
     <h5 class='number'><a href='#reply-<%= reply_counter + 1 %>'>#<%= reply_counter + 1 %>:</a></h5>
     <h5 class='author'>
-      <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos'><%= reply.user.name %></span>
+      <%= render partial: "user", locals: { user: reply.user } %>
       <span>replies:</span>
       <div class='timestamp'><i class='glyphicon glyphicon-time'></i>&nbsp;&nbsp;<%= reply.date.strftime("%B %d, %Y at %l:%M %p") %></div>
     </h5>

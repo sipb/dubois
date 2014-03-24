@@ -1,0 +1,4 @@
+<% user.visible_attributes.each do |attr_name| %>
+  <% next if user.try(attr_name).blank? %>
+  <div><%= attr_name.to_s.titleize %>: <%= user.send(attr_name) %></div>
+<% end %>

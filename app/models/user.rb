@@ -10,15 +10,15 @@ class User < ActiveRecord::Base
   end
 
   def affiliation
-    kerberos['eduPersonAffiliation']
+    self.kerberos['eduPersonAffiliation']
   end
 
   def full_name
-    kerberos['displayName']
+    self.kerberos['displayName']
   end
   
   def class_year
-    year = kerberos['mitDirStudentYear']
+    year = self.kerberos['mitDirStudentYear']
     if year == "G"
       "Graduated"
     else
@@ -27,11 +27,11 @@ class User < ActiveRecord::Base
   end
 
   def street
-    kerberos['street']
+    self.kerberos['street']
   end
 
   def room
-    kerberos['roomNumber']
+    self.kerberos['roomNumber']
   end
 
 
@@ -39,10 +39,8 @@ class User < ActiveRecord::Base
     [:name, :email, :full_name, :room, :street, :affiliation]
   end
 
-  private
-
-    def kerberos
-      MIT::LDAP.connect! unless MIT::LDAP.connected?
-      @kerberos ||= MIT::LDAP.search(:filter => "(uid=#{self.name})").first
-    end
+  def kerberos
+    MIT::LDAP.connect! unless MIT::LDAP.connected?
+    @kerberos ||= MIT::LDAP.search(:filter => "(uid=#{self.name})").first || {}
+  end
 end

@@ -19,7 +19,13 @@
 
       <tr>
         <td><span class='glyphicon glyphicon-user'></span></td>
-        <td class='kerberos'><%= thread.messages.last.user.name %></td>
+        <%- user = thread.messages.last.user %>
+        <% if user.kerberos.present? %>
+          <td class='kerberos hoverable' data-placement='top' data-original-title='<%= user.full_name %>' data-toggle='popover' data-content='<%= render partial:'kerberos', locals: { user: user } %>'><%= user.name %></td>
+        <% else %>
+          <td class='kerberos'><%= user.name %></td>
+        <% end %>
+
       </tr>
 
       <tr>

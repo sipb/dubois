@@ -1,7 +1,7 @@
 <article id='thread'>
   <section class='message number' id='root'>
     <h5 class='author'>
-      <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos'><%= @thread.author.name %></span>
+      <%= render partial: 'user', locals: { user: @thread.author } %>
       <span>writes:</span>
       <span class='timestamp'><i class='glyphicon glyphicon-time'></i>&nbsp;&nbsp;<%= @thread.date.strftime("%B %d, %Y at %l:%M %p") %></span>
     </h5>

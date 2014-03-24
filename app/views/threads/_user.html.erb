@@ -1,0 +1,5 @@
+<% if user.kerberos.present? %>
+  <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos hoverable' data-placement='top' data-original-title='<%= user.full_name %>' data-toggle='popover' data-content='<%= render partial:'/mailing_lists/kerberos', locals: { user: user } %>'><%= user.name %></span>
+<% else %>
+  <i class='glyphicon glyphicon-user'></i>&nbsp;&nbsp;<span class='kerberos' user.name %></span>
+<% end %>
