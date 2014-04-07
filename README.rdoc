@@ -1,5 +1,3 @@
 == Dubois
 
-Dubois is a modern mailing list archiver, reader, and search tool for MIT and friends. It's like discuss, but better.
-
-=== Deployment
+Dubois is a modern mailing list archiver, reader, and search tool for MIT and friends. It's like discuss[http://diswww.mit.edu/], but with a reasonable UI/UX.
