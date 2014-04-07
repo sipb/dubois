@@ -1,5 +1,5 @@
 <h1 class='page-title'><%= link_to "/#{@mailing_list.short_name}", mailing_list_path(name: @mailing_list.short_name) %> </h1>
-<h4 class='page-title'>Recent posts in /<%= @mailing_list.short_name %> </h4>
+<h4 class='page-title'><p>Recent posts in <em><%= @mailing_list.short_name %></em></h4>
 
 <%= form_tag thread_search_url(name: @mailing_list.short_name) do %>
   <div class="input-group" id='search_box'>
