@@ -52,14 +52,25 @@ group :doc do
 end
 
 group :development, :test do
+
+  # Pretty debugging
   gem 'jazz_hands'
+
+  # Useful when running dubois via Pow
   gem 'pry-remote'
+  
+  # Better error pages, with an inline REPL and such.
   gem 'better_errors'
   gem "binding_of_caller"
+
+  # Testing.
   gem 'rspec-rails'
+
+  # Environment variables for development
   gem 'dotenv-rails'
 end
 
 group :test do
+  # "after_commit" callbacks will never be invoked by default during testing. This fixes that.
   gem 'test_after_commit'
 end
