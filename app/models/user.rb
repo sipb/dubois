@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
 
   def kerberos
     MIT::LDAP.connect! unless MIT::LDAP.connected?
-    @kerberos ||= MIT::LDAP.search(:filter => "(uid=#{self.name})").first || {}
+    @kerberos ||= MIT::LDAP.try(:search, { :filter => "(uid=#{self.name})" }).try(:first) || {}
   end
+
 end

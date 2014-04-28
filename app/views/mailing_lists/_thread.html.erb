@@ -3,7 +3,7 @@
   <div class='mailing-list-container'>
     <div class='mailing-list'>
       <%= link_to thread.mailing_list.name.split("@").first, mailing_list_path(name: thread.mailing_list.short_name), :class => "name" %>
-      <%= link_to follower_url(id: thread.mailing_list.id), :method => :post, :class => "btn btn-default btn-xs fave" do %>
+      <%= link_to follower_url(id: thread.mailing_list.id), :method => toggle_follower_for(thread.mailing_list.id), :class => "btn btn-default btn-xs fave" do %>
         <span class="glyphicon glyphicon-star"></span>
         <span><%= number_with_delimiter thread.mailing_list.followers.count %></span>
       <% end %>
